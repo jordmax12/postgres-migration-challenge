@@ -56,11 +56,11 @@ since the migration. There would be no need to repair these records but
 your report should still include them.
 
 # Checklist 
-[_] You valued correctness, simplicity, readability, and efficiency over being clever
+- You valued correctness, simplicity, readability, and efficiency over being clever
 and sophisticated.
-[_] You’ve written tests to demonstrate with high confidence that your code
+- You’ve written tests to demonstrate with high confidence that your code
 does what it should.
-[_] You’ve documented how to use your program such that an experienced
+- You’ve documented how to use your program such that an experienced
 engineer could run it without assistance.
-[_] You’ve documented any assumptions you made beyond what was explicitly
+- You’ve documented any assumptions you made beyond what was explicitly
 described here.
