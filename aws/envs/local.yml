@@ -1,0 +1,3 @@
+environment:
+    APP_NAME: ${self:service}
+    POSTGRES_ENDPOINT: localhost

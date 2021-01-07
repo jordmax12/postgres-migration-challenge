@@ -1,0 +1,51 @@
+service: migration-report
+package:
+    individually: true
+    exclude:
+        - aws/**
+        - README.md
+        - serverless.yml
+        - package.json
+        - package-lock.json
+custom:
+    environment: ${file(./aws/envs/${opt:aws_envs, 'local'}.yml):environment}
+    serverless-offline:
+        port: 9000
+        stage: local
+        prefix: ${self:service}
+        region: us-east-2
+        noAuth: true
+    memorySize:
+        local: 1024
+        dev: 256
+        qa: 256
+        uat: 1024
+        prod: 1024
+provider:
+    name: aws
+    runtime: nodejs12.x
+    versionFunctions: false
+    endpointType: regional
+    environment:  ${file(./aws/envs/${opt:aws_envs, 'local'}.yml):environment}
+    stage: ${opt:stage, 'local'}
+    region: ${opt:region, 'us-east-2'}
+    profile: ${opt:stage, 'local'}
+    stackName: ${self:provider.stackTags.name}
+    apiName: ${self:provider.stackTags.name}
+    deploymentPrefix: ${self:provider.stackTags.name}
+    deploymentBucket:
+        name: ${self:provider.stage}-${self:provider.region}-enogen-deployments
+    stackTags:
+        name: ${self:provider.stage}-${self:service}
+        service: ${self:service}
+        environment: ${self:provider.stage}
+        managedby: serverless
+functions:
+    v1-console-generate-migration-report:
+        name: ${self:provider.stackTags.name}-v1-console-generate-migration-report
+        description: Trigger all companies
+        handler: application/v1/controller/console/generate-migration-report.trigger
+        memorySize: 3008
+        timeout: 900
+plugins:
+    - serverless-offline
